@@ -11,7 +11,7 @@
     }
   ],
   "require": {
-    "mtymek/expressive-config-manager": "^0.4.0"
+    "mtymek/expressive-config-manager": "^0.4"
   },
   "require-dev": {
     "composer/composer": ">=1.0.0-alpha10",

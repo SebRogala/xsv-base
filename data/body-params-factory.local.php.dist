@@ -1,0 +1,15 @@
+<?php
+/**
+ * @author SebRogala <sebrogala@gmail.com>
+ * @copyright Copyright (c) 2016 SebRogala All Right Reserved (sebrogala.com)
+ * @license proprietary (see LICENSE.md file of this package)
+ */
+
+return [
+    'dependencies' => [
+        'factories' => [
+            Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware::class
+                => Xsv\Base\Factory\BodyParams\BodyParamsFactory::class,
+        ],
+    ],
+];
