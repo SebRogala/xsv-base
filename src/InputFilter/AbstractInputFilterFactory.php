@@ -3,7 +3,7 @@
  * Created: 06.07.2017
  */
 
-namespace App\InputFilter;
+namespace Xsv\Base\InputFilter;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\AbstractFactoryInterface;

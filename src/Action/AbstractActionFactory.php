@@ -3,7 +3,7 @@
  * Created: 06.07.2017
  */
 
-namespace App\Action;
+namespace Xsv\Base\Action;
 
 use Interop\Container\ContainerInterface;
 use ReflectionClass;

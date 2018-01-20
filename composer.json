@@ -11,7 +11,8 @@
     }
   ],
   "require": {
-    "zendframework/zend-config-aggregator": "^1.0"
+    "zendframework/zend-config-aggregator": "^1.0",
+    "zendframework/zend-inputfilter": "^2.7"
   },
   "require-dev": {
     "composer/composer": ">=1.0.0-alpha10",

@@ -5,7 +5,7 @@
  * @license proprietary (see LICENSE.md file of this package)
  */
 
-namespace App\Action;
+namespace Xsv\Base\Action;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
