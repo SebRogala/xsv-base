@@ -7,6 +7,9 @@
 
 namespace Xsv\Base;
 
+use Xsv\Base\Factory\AppConfigFactory;
+use Xsv\Base\Service\AppConfig;
+
 class ConfigProvider
 {
     public function __invoke()
@@ -19,6 +22,9 @@ class ConfigProvider
     public function getDependencies()
     {
         return [
+            'factories' => [
+                AppConfig::class => AppConfigFactory::class,
+            ],
             'abstract_factories' => [
                 Action\AbstractActionFactory::class,
                 InputFilter\AbstractInputFilterFactory::class,
