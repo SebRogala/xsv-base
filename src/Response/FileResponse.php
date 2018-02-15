@@ -23,8 +23,8 @@ class FileResponse extends Response
                 404
             );
         } else {
-            $this->createBody();
             $this->file = $filePath;
+            $this->createBody();
             parent::__construct(
                 $this->body,
                 200,
