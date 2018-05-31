@@ -12,4 +12,15 @@ return [
                 => Xsv\Base\Factory\BodyParams\BodyParamsFactory::class,
         ],
     ],
+    'xsv-base' => [
+        'can-create' => [
+            'search-max-depth' => 2,    //should be equal to max number of words in 'abstract-factory' (currenty it's 2)
+            'abstract-factory' => [
+                'Handler',
+                'Action',
+                'InputFilter',
+                'DoctrineService',
+            ],
+        ],
+    ],
 ];

@@ -7,7 +7,7 @@
 
 namespace Xsv\Base\Service;
 
-class AppConfig
+class AppConfigService
 {
     /** @var array */
     private $config;

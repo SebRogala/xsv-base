@@ -7,8 +7,9 @@
 
 namespace Xsv\Base;
 
-use Xsv\Base\Factory\AppConfigFactory;
-use Xsv\Base\Service\AppConfig;
+use Xsv\Base\AbstractFactory\CommonDependencyInjectionAbstractFactory;
+use Xsv\Base\Service\AppConfigServiceFactory;
+use Xsv\Base\Service\AppConfigService;
 
 class ConfigProvider
 {
@@ -23,13 +24,11 @@ class ConfigProvider
     {
         return [
             'factories' => [
-                AppConfig::class => AppConfigFactory::class,
+                AppConfigService::class => AppConfigServiceFactory::class,
             ],
             'abstract_factories' => [
-                Action\AbstractActionFactory::class,
-                InputFilter\AbstractInputFilterFactory::class,
+                CommonDependencyInjectionAbstractFactory::class
             ],
         ];
     }
-
 }

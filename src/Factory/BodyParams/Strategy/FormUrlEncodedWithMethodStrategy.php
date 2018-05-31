@@ -16,7 +16,7 @@ class FormUrlEncodedWithMethodStrategy extends FormUrlEncodedStrategy implements
     /**
      * {@inheritDoc}
      */
-    public function parse(ServerRequestInterface $request)
+    public function parse(ServerRequestInterface $request): ServerRequestInterface
     {
         if ($request->getMethod() == "PUT") {
             parse_str($request->getBody()->getContents(), $data);

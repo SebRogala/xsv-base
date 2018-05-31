@@ -11,7 +11,7 @@ use Zend\Diactoros\ServerRequest;
 use Psr\Http\Message\StreamInterface;
 use Xsv\Base\Factory\BodyParams\Strategy\FormUrlEncodedWithMethodStrategy;
 
-class FormUrlEncodedWithMethodStrategyTest extends \PHPUnit_Framework_TestCase
+class FormUrlEncodedWithMethodStrategyTest extends \PHPUnit\Framework\TestCase
 {
     protected $strategy;
 
