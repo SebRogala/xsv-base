@@ -34,7 +34,7 @@ class CommonDependencyInjectionAbstractFactory implements AbstractFactoryInterfa
 
     public function canCreate(ContainerInterface $container, $requestedName)
     {
-        $canCreateConfig = $container->get(AppConfigService::class)->getConfig('can-create');
+        $canCreateConfig = $container->get(AppConfigService::class)->getConfig('xsv-base', 'can-create');
 
         for($i = 1; $i <= $canCreateConfig['search-max-depth']; $i++) {
             $re = '/(?:[A-Z][a-z]*){' . $i . '}$/m';

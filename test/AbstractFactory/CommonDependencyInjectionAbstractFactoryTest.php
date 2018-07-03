@@ -13,12 +13,11 @@ use Xsv\Base\Service\AppConfigService;
 
 class CommonDependencyInjectionAbstractFactoryTest extends \PHPUnit\Framework\TestCase
 {
-
     private function getContainer($config) {
         $container = $this->prophesize(ContainerInterface::class);
         $appConfig = $this->prophesize(AppConfigService::class);
 
-        $appConfig->getConfig('can-create')->willReturn($config);
+        $appConfig->getConfig('xsv-base', 'can-create')->willReturn($config);
         $container->get(AppConfigService::class)->willReturn($appConfig->reveal());
 
         return $container;

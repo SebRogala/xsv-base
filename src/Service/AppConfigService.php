@@ -17,16 +17,17 @@ class AppConfigService
         $this->config = $config;
     }
 
-    public function getConfig($key = "")
+    public function getConfig(string ...$key) : array
     {
         if(empty($key)) {
             return $this->config;
         }
 
-        if(!empty($this->config[$key])) {
-            return $this->config[$key];
+        $result = $this->config;
+        foreach($key as $name) {
+            $result = $result[$name] ?? [];
         }
 
-        return [];
+        return $result;
     }
 }
