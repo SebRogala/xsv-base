@@ -26,7 +26,11 @@ class CommonDependencyInjectionAbstractFactory implements AbstractFactoryInterfa
         $dependencies = [];
         foreach ($parameters as $parameter) {
             $class = $parameter->getClass();
-            $dependencies[] = $container->get($class->getName());
+            $dependency = $container->get($class->getName());
+            if(is_string($dependency)) {
+                $dependency = $container->get($dependency);
+            }
+            $dependencies[] = $dependency;
         }
 
         return $reflection->newInstanceArgs($dependencies);
