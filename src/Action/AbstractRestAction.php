@@ -16,13 +16,12 @@ abstract class AbstractRestAction
     /**
      * Returns new JsonResponse with 422 status code for invalid form
      *
-     * @param InputFilterInterface $inputFilter
+     * @param array $errors
      * @return mixed
      */
     protected function validationErrorResponse(
-        InputFilterInterface $inputFilter
+        array $errors
     ){
-        $errors = $inputFilter->getMessages();
         return new JsonResponse($errors, 422);
     }
 

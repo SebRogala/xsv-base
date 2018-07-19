@@ -20,6 +20,8 @@ return [
                 'Action',
                 'InputFilter',
                 'DoctrineService',
+                'Doctrine',
+                'Validator',
             ],
         ],
     ],
