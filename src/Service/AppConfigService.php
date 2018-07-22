@@ -17,7 +17,7 @@ class AppConfigService
         $this->config = $config;
     }
 
-    public function getConfig(string ...$key) : array
+    public function getConfig(string ...$key)
     {
         if(empty($key)) {
             return $this->config;
