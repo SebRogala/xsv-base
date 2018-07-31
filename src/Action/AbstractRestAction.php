@@ -11,6 +11,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\InputFilter\InputFilterInterface;
 
+use Xsv\Translate\Translator\Translator;
+
 abstract class AbstractRestAction
 {
     /**
@@ -46,5 +48,54 @@ abstract class AbstractRestAction
         }
 
         return $data;
+    }
+
+    protected function entityToArray($entity)
+    {
+        if(!class_exists(Translator::class)) {
+            return $this->untranslatedEntityToArray($entity);
+        }
+
+        $translationKeys = Translator::getTranslationKeys();
+        $re = '/([\w]+)$/m';
+        preg_match_all($re, get_class($entity), $matchedKey);
+        $entityName = $matchedKey[0][0];
+
+        if(!key_exists($entityName, $translationKeys)) {
+            return $this->untranslatedEntityToArray($entity);
+        }
+
+        $entityTranslationKeys = $translationKeys[$entityName];
+        $array = [];
+
+        foreach ((array)$entity as $namespacedKey => $value) {
+            preg_match_all($re, $namespacedKey, $matches);
+            $key = $matches[0][0];
+
+            if(in_array($key, $entityTranslationKeys))
+            {
+                $array[$key] = Translator::translate($entityName . "." . $key, $entity->getId(), $value);
+            }
+            else
+            {
+                $array[$key] = $value;
+            }
+        }
+
+        return $array;
+    }
+
+    private function untranslatedEntityToArray($entity)
+    {
+        $array = [];
+
+        $re = '/([\w]+)$/m';
+
+        foreach ((array)$entity as $key => $value) {
+            preg_match_all($re, $key, $matches);
+            $array[$matches[0][0]] = $value;
+        }
+
+        return $array;
     }
 }
