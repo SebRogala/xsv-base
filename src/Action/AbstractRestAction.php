@@ -18,12 +18,15 @@ abstract class AbstractRestAction
     /**
      * Returns new JsonResponse with 422 status code for invalid form
      *
-     * @param array $errors
+     * @param mixed $errors
      * @return mixed
      */
     protected function validationErrorResponse(
-        array $errors
+        $errors
     ){
+        if(is_string($errors)) {
+            $errors = [$errors];
+        }
         return new JsonResponse($errors, 422);
     }
 
