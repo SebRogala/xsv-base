@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\InputFilter\InputFilterInterface;
 
+use App\Entity;
 use Xsv\Translate\Translator\Translator;
 
 abstract class AbstractRestAction
@@ -75,7 +76,10 @@ abstract class AbstractRestAction
             preg_match_all($re, $namespacedKey, $matches);
             $key = $matches[0][0];
 
-            if(in_array($key, $entityTranslationKeys))
+            if($value instanceof Entity) {
+                $array[$key] = $this->entityToArray($value);
+            }
+            else if(in_array($key, $entityTranslationKeys))
             {
                 $array[$key] = Translator::translate($entityName . "." . $key, $entity->getId(), $value);
             }
@@ -96,7 +100,13 @@ abstract class AbstractRestAction
 
         foreach ((array)$entity as $key => $value) {
             preg_match_all($re, $key, $matches);
-            $array[$matches[0][0]] = $value;
+
+            if($value instanceof Entity) {
+                $array[$matches[0][0]] = $this->entityToArray($value);
+            }
+            else {
+                $array[$matches[0][0]] = $value;
+            }
         }
 
         return $array;
