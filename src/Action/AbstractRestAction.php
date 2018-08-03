@@ -76,8 +76,19 @@ abstract class AbstractRestAction
             preg_match_all($re, $namespacedKey, $matches);
             $key = $matches[0][0];
 
+            if($value instanceof User) {
+                $value->removePassword();
+            }
+
             if($value instanceof Entity) {
                 $array[$key] = $this->entityToArray($value);
+            }
+            else if($value instanceof PersistentCollection || is_array($value)) {
+                $a = [];
+                foreach((array)$array[$key] as $itemFromCollection) {
+                    $a[] = $this->entityToArray($value);
+                }
+                $array[$key] = $a;
             }
             else if(in_array($key, $entityTranslationKeys))
             {
@@ -98,14 +109,26 @@ abstract class AbstractRestAction
 
         $re = '/([\w]+)$/m';
 
-        foreach ((array)$entity as $key => $value) {
-            preg_match_all($re, $key, $matches);
+        foreach ((array)$entity as $namespacedKey => $value) {
+            preg_match_all($re, $namespacedKey, $matches);
+            $key = $matches[0][0];
+
+            if($value instanceof User) {
+                $value->removePassword();
+            }
 
             if($value instanceof Entity) {
-                $array[$matches[0][0]] = $this->entityToArray($value);
+                $array[$key] = $this->entityToArray($value);
+            }
+            else if($value instanceof PersistentCollection || is_array($value)) {
+                $a = [];
+                foreach($value as $itemFromCollection) {
+                    $a[] = $this->entityToArray($itemFromCollection);
+                }
+                $array[$key] = $a;
             }
             else {
-                $array[$matches[0][0]] = $value;
+                $array[$key] = $value;
             }
         }
 
