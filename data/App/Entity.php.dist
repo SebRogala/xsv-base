@@ -6,22 +6,33 @@ class Entity
 {
     protected $id;
 
+    public $relationsAndCollections = [];
+
     /**
      * Entity constructor.
      * @param string $id
      * @param array $data
      */
     public function __construct(string $id, array $data)
-    {
-        $this->id = $id;
+        {
+            $this->id = $id;
 
-        foreach ($data as $key => $val) {
-            $this->$key = $val;
+            foreach($data as $key => $val) {
+                if(is_array($val)) {
+                    $this->$key = new ArrayCollection($val);
+                } else {
+                    $this->$key = $val;
+                }
+            }
         }
-    }
 
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function removeRelationsAndCollection()
+    {
+        unset($this->relationsAndCollections);
     }
 }

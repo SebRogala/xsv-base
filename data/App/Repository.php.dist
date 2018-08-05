@@ -34,11 +34,13 @@ class Repository implements RepositoryInterface
 
     public function save(Entity $entity)
     {
+        $entity = $this->swapRelationsAndCollections($entity);
         $this->entityManager->persist($entity);
     }
 
     public function update(Entity $entity)
     {
+        $entity = $this->swapRelationsAndCollections($entity);
         $this->entityManager->merge($entity);
     }
 
@@ -66,4 +68,31 @@ class Repository implements RepositoryInterface
     {
         $this->entityManager->rollback();
     }
+
+    protected function swapRelationsAndCollections($entity)
+        {
+            if(empty($entity->relationsAndCollections))
+            {
+                return $entity;
+            }
+            foreach($entity->relationsAndCollections as $fieldName => $fieldType) {
+                if(is_array($fieldType) && !empty($entity[$fieldName])) {
+                    $tempArray = [];
+                    foreach($entity->$fieldName as $collectionItem) {
+                        if(is_string($collectionItem)) {
+                            $tempArray[] = $this->entityManager->getReference($fieldType[0], $collectionItem);
+                        } else {
+                            $tempArray[] = $collectionItem;
+                        }
+                    }
+                    $entity->$fieldName = $tempArray;
+                } else {
+                    if(is_string($entity->$fieldName)) {
+                        $entity->$fieldName = $this->entityManager->getReference($fieldType, $entity->$fieldName);
+                    }
+                }
+            }
+
+            return $entity;
+        }
 }

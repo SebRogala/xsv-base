@@ -12,12 +12,14 @@ use Zend\Diactoros\Response\JsonResponse;
 use Zend\InputFilter\InputFilterInterface;
 
 use App\Entity;
+use Doctrine\ORM\PersistentCollection;
+use User\DomainShared\Entity\User;
 use Xsv\Translate\Translator\Translator;
 
 abstract class AbstractRestAction
 {
     /**
-     * Returns new JsonResponse with 422 status code for invalid form
+     * Returns new JsonResponse with 400 status code for invalid form
      *
      * @param mixed $errors
      * @return mixed
@@ -28,7 +30,7 @@ abstract class AbstractRestAction
         if(is_string($errors)) {
             $errors = [$errors];
         }
-        return new JsonResponse($errors, 422);
+        return new JsonResponse($errors, 400);
     }
 
     /**
@@ -56,6 +58,8 @@ abstract class AbstractRestAction
 
     protected function entityToArray($entity)
     {
+        $entity->removeRelationsAndCollection();
+
         if(!class_exists(Translator::class)) {
             return $this->untranslatedEntityToArray($entity);
         }
@@ -86,7 +90,7 @@ abstract class AbstractRestAction
             else if($value instanceof PersistentCollection || is_array($value)) {
                 $a = [];
                 foreach((array)$array[$key] as $itemFromCollection) {
-                    $a[] = $this->entityToArray($value);
+                    $a[] = $this->entityToArray($itemFromCollection);
                 }
                 $array[$key] = $a;
             }
