@@ -58,6 +58,14 @@ abstract class AbstractRestAction
 
     protected function entityToArray($entity)
     {
+        if(is_array($entity)) {
+            $tempArray = [];
+            foreach($entity as $key => $item) {
+                $tempArray[$key] = $this->entityToArray($item);
+            }
+            return $tempArray;
+        }
+
         $entity->removeRelationsAndCollection();
 
         if(!class_exists(Translator::class)) {
