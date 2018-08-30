@@ -47,4 +47,13 @@ there can be used Abstract Factory:
 
 Copy `xsv-base-config.global.php.dist` to `config/autoload` folder and configure your common types there.
 
+### Handy copy commands
+```bash
+cp vendor/sebrogala/xsv-base/data/xsv-base-config.global.php.dist config/autoload/xsv-base-config.global.php
+cp vendor/sebrogala/xsv-base/data/App/Entity.php.dist src/App/src/Entity.php
+cp vendor/sebrogala/xsv-base/data/App/Repository.php.dist src/App/src/Repository.php
+cp vendor/sebrogala/xsv-base/data/App/RepositoryInterface.php.dist src/App/src/RepositoryInterface.php
+cp vendor/sebrogala/xsv-base/data/App/UuidGen.php.dist src/App/src/UuidGen.php
+```
+
 [1]: http://zend-expressive.readthedocs.io/en/stable/features/helpers/body-parse/

@@ -13,35 +13,48 @@ use Zend\Diactoros\Stream;
 class FileResponse extends Response
 {
     private $body;
-    private $file;
+    private $resource;
+    private $name;
 
-    public function __construct($filePath)
+    public function __construct($resource, $name = "")
     {
-        if(!file_exists($filePath)) {
-            parent::__construct(
-                "php://memory",
-                404
-            );
-        } else {
-            $this->file = $filePath;
+        $this->name = $name;
+        $this->resource = $resource;
+
+        if(is_resource($resource)) {
             $this->createBody();
             parent::__construct(
                 $this->body,
                 200,
                 $this->getHeadersForFile()
             );
+        } else if(file_exists($resource)) {
+            if(empty($name)) {
+                $this->name = basename($resource);
+            }
+            $this->createBody();
+            parent::__construct(
+                $this->body,
+                200,
+                $this->getHeadersForFile()
+            );
+        } else {
+            parent::__construct(
+                "php://memory",
+                404
+            );
         }
     }
 
     private function createBody()
     {
-        $this->body = new Stream($this->file);
+        $this->body = new Stream($this->resource);
     }
 
     private function getHeadersForFile() {
         return [
             'Content-Type' => 'application/octet-stream',
-            'Content-Disposition' => "attachment; filename=" . basename($this->file),
+            'Content-Disposition' => "attachment; filename=" . $this->name,
             'Content-Transfer-Encoding' => 'Binary',
             'Content-Description' => 'File Transfer',
             'Pragma' => 'public',
