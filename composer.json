@@ -27,5 +27,11 @@
     "psr-4": {
       "XsvTest\\Base\\": "test/"
     }
+  },
+  "extra": {
+    "xsv": {
+      "component": "Xsv\\Base",
+      "config-provider": "Xsv\\Base\\ConfigProvider"
+    }
   }
 }
